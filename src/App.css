@@ -5,7 +5,7 @@ body, html {
   padding: 0;
   font-family: 'Arial', sans-serif;
   background-color: #f4f4f4;
-  background-image: url('../public/back.jpg');
+  background-image: url('../public/logo192.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center 25%; /* Adjust background position to start from 1/4 of the page */
