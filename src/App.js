@@ -147,18 +147,44 @@ function App() {
 
 
 
+  // const populateItems = (name, amount, spent, expiryDate, status) => {
+  //   const newInventoryItem = {
+  //     id: inventory.length + 1,
+  //     name: name,
+  //     amount: amount,
+  //     spent: spent,
+  //     expiryDate: expiryDate,
+  //     status: status
+  //   };
+  //   setInventory([...inventory, newInventoryItem]);
+  // };
+
   const populateItems = (name, amount, spent, expiryDate, status) => {
+    let itemStatus = '';
+    if (expiryDate !== '') {
+      const currentDate = new Date();
+      const expiryDateObj = new Date(expiryDate);
+      const differenceInTime = expiryDateObj.getTime() - currentDate.getTime();
+      const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+  
+      if (differenceInDays > 0) {
+        itemStatus = 'Not Expired';
+      } else {
+        itemStatus = 'Expired';
+      }
+    }
+  
     const newInventoryItem = {
       id: inventory.length + 1,
       name: name,
       amount: amount,
       spent: spent,
       expiryDate: expiryDate,
-      status: status
+      status: itemStatus
     };
     setInventory([...inventory, newInventoryItem]);
   };
-
+  
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
