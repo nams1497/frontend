@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const InventoryList = ({ inventory, onEdit, onDelete }) => {
   const [editingItem, setEditingItem] = useState(null);
@@ -50,8 +48,8 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
                 <button onClick={() => handleSave(item.id)}>Save</button>
               ) : (
                 <React.Fragment>
-                  <FontAwesomeIcon icon={faEdit} onClick={() => handleEdit(item.id, item)} style={{ cursor: 'pointer', marginLeft: '7px',marginRight: '12px', color: 'green' }} />
-                  <FontAwesomeIcon icon={faTrash} onClick={() => onDelete(item.id)} style={{ cursor: 'pointer', color: 'green' }} />
+                  <button onClick={() => handleEdit(item.id, item)} style={{ cursor: 'pointer', marginLeft: '7px', marginRight: '12px', color: 'green' }}>Edit</button>
+                  <button onClick={() => onDelete(item.id)} style={{ cursor: 'pointer', color: 'green' }}>Delete</button>
                 </React.Fragment>
               )}
             </td>
@@ -61,5 +59,6 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
     </table>
   );
 };
+
 
 export default InventoryList;
