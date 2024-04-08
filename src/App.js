@@ -133,7 +133,7 @@ function App() {
       });
       const data = await response.json();
       console.log(data);
-      setName(name);
+      setName(data.name);
       setImgSrc(data.imgSrc);
       setExtractedText(data.extracted_text);
       setMsg(data.msg);
