@@ -127,7 +127,7 @@ function App() {
     formData.append('file', file);
 
     try {
-      const response = await fetch('/', {
+      const response = await fetch('https://new12222-18275757747f.herokuapp.com/exp', {
         method: 'POST',
         body: formData
       });
@@ -164,7 +164,7 @@ function App() {
     formData.append('file1', file1);
     setShowScanReceiptPopup(false); // Close the popup
     try {
-      const response = await fetch('/pred', {
+      const response = await fetch('https://new12222-18275757747f.herokuapp.com/pred', {
         method: 'POST',
         body: formData
       });
@@ -196,7 +196,7 @@ function App() {
     formData.append('file2', file2);
 
     try {
-      const response = await fetch('/recpt', {
+      const response = await fetch('https://new12222-18275757747f.herokuapp.com/recpt', {
         method: 'POST',
         body: formData
       });
