@@ -23,7 +23,7 @@ function App() {
     status: ''
   });
   const [msg, setMsg] = useState('');
-  const [name, setName] = useState('');
+  // const [name, setName] = useState('');
   const [file, setFile] = useState(null);
   const [imgSrc, setImgSrc] = useState('');
   const [extractedText, setExtractedText] = useState('');
@@ -35,7 +35,7 @@ function App() {
   const [file2, setFile2] = useState(null);
   const [imgSrc2, setImgSrc2] = useState('');
   const [extractedText2, setExtractedText2] = useState(''); 
-  const webcamRef = useRef(null);
+  // const webcamRef = useRef(null);
 
   // Define handleEditItem function
   const handleEditItem = (id, updatedItem) => {
