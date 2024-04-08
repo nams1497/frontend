@@ -23,7 +23,7 @@ function App() {
     status: ''
   });
   const [msg, setMsg] = useState('');
-  // const [name, setName] = useState('');
+  const [name, setName] = useState('');
   const [file, setFile] = useState(null);
   const [imgSrc, setImgSrc] = useState('');
   const [extractedText, setExtractedText] = useState('');
@@ -133,7 +133,7 @@ function App() {
       });
       const data = await response.json();
       console.log(data);
-      setName(data.name);
+      setName(name);
       setImgSrc(data.imgSrc);
       setExtractedText(data.extracted_text);
       setMsg(data.msg);
