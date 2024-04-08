@@ -29,7 +29,7 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
         <tr>
           <th>Name</th>
           <th>Amount</th>
-          <th>Spent</th>
+          <th>Spent($)</th>
           <th>Expiry Date</th>
           <th>Status</th>
           <th>Actions</th>
@@ -48,7 +48,7 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
                 <button onClick={() => handleSave(item.id)}>Save</button>
               ) : (
                 <React.Fragment>
-                  <button onClick={() => handleEdit(item.id, item)} style={{ cursor: 'pointer', marginLeft: '7px', marginRight: '12px', color: 'green' }}>Edit</button>
+                  <button onClick={() => handleEdit(item.id, item)} style={{ cursor: 'pointer', marginLeft: '-7px', marginRight: '10px', color: 'green' }}>Edit</button>
                   <button onClick={() => onDelete(item.id)} style={{ cursor: 'pointer', color: 'green' }}>Delete</button>
                 </React.Fragment>
               )}

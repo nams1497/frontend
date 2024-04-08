@@ -93,17 +93,59 @@ function App() {
   };
 
   const handleAddItem = () => {
-    const newInventoryItem = { id: inventory.length + 1, ...newItem };
-    setInventory([...inventory, newInventoryItem]);
-    setNewItem({
-      name: '',
-      amount: 0,
-      spent: '',
-      expiryDate: '',
-      status: ''
-    });
-    setShowAddPopup(false);
-  };
+  // Regular expression to check for special characters
+  const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+
+  // Check if any of the required fields are empty
+  if (!newItem.name || !newItem.amount || !newItem.spent || !newItem.expiryDate || !newItem.status) {
+    // Display an error message or perform any other action
+    alert('Please fill in all the fields');
+    return; // Exit the function early if validation fails
+  }
+
+  // Check if any field contains special characters
+  if (specialCharsRegex.test(newItem.name) || specialCharsRegex.test(newItem.status)) {
+    alert('Please do not use special characters in the name or status field');
+    return;
+  }
+
+  // Check if the amount is a valid number
+  const amount = parseFloat(newItem.amount);
+  if (isNaN(amount) || amount <= 0) {
+    alert('Please enter a valid amount');
+    return;
+  }
+
+  // Check if the spent is a valid number
+  const spent = parseFloat(newItem.spent);
+  if (isNaN(spent) || spent <= 0) {
+    alert('Please enter a valid spent amount');
+    return;
+  }
+
+  // Check if the expiry date is in the correct format (dd MMM yyyy)
+  const expiryDateRegex = /^\d{1,2}\s\w{3}\s\d{4}$/;
+  if (!expiryDateRegex.test(newItem.expiryDate)) {
+    alert('Please enter the expiry date in the format dd MMM yyyy (e.g., 15 Apr 2024)');
+    return;
+  }
+
+  // Add the new item to the inventory
+  const newInventoryItem = { id: inventory.length + 1, ...newItem };
+  setInventory([...inventory, newInventoryItem]);
+
+  // Reset the form fields and hide the add popup
+  setNewItem({
+    name: '',
+    amount: '',
+    spent: '',
+    expiryDate: '',
+    status: ''
+  });
+  setShowAddPopup(false);
+};
+
+
 
   const populateItems = (name, amount, spent, expiryDate, status) => {
     const newInventoryItem = {
@@ -223,14 +265,16 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <div className="toolbar">
+  <div>
+  <div className="toolbar">
         <button onClick={() => console.log("Check your Savings clicked")}>Check your Savings</button>
         <button onClick={() => console.log("Recipes clicked")}>Recipes</button>
         <button onClick={() => console.log("Information clicked")}>Information</button>
         <button onClick={() => console.log("Recycling Agencies Clicked")}>Recycling Agencies</button>
         <button onClick={() => console.log("Check My Knowledge Clicked")}>Check My Knowledge</button>
       </div>
+    <div className="App">
+
       <header>Your Fridge</header>
       <InventoryList
         inventory={inventory}
@@ -291,9 +335,12 @@ function App() {
               <input type="number" name="amount" value={newItem.amount} onChange={handleInputChange} />
             </div>
             <div className="form-group">
+            <div className="form-group">
               <label>Spent:</label>
-              <input type="text" name="spent($)" value={newItem.spent} onChange={handleInputChange} />
+              <input type="text" name="spent" value={newItem.spent} onChange={handleInputChange} />
             </div>
+            </div>
+
             <div className="form-group">
               <label>Expiry Date:</label>
               <input type="text" name="expiryDate" value={newItem.expiryDate} onChange={handleInputChange} />
@@ -376,6 +423,7 @@ function App() {
           </div>
         )}
       </div>
+    </div>
     </div>
   );
 }
