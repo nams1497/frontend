@@ -97,7 +97,7 @@ function App() {
   const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
 
   // Check if any of the required fields are empty
-  if (!newItem.name || !newItem.amount || !newItem.spent || !newItem.expiryDate) {
+  if (!newItem.name || !newItem.amount || !newItem.spent || !newItem.expiryDate || !newItem.status) {
     // Display an error message or perform any other action
     alert('Please fill in all the fields');
     return; // Exit the function early if validation fails
@@ -147,58 +147,18 @@ function App() {
 
 
 
-  // const populateItems = (name, amount, spent, expiryDate, status) => {
-  //   const newInventoryItem = {
-  //     id: inventory.length + 1,
-  //     name: name,
-  //     amount: amount,
-  //     spent: spent,
-  //     expiryDate: expiryDate,
-  //     status: status
-  //   };
-  //   setInventory([...inventory, newInventoryItem]);
-  // };
-
   const populateItems = (name, amount, spent, expiryDate, status) => {
-    let itemStatus = '';
-  
-    if (expiryDate !== '') {
-      // Split expiryDate into parts
-      const parts = expiryDate.split(' ');
-      const day = parseInt(parts[0], 10);
-      const month = parts[1]; // Month abbreviation like "Apr"
-      const year = parseInt(parts[2], 10);
-  
-      // Create a new Date object using the parsed day, month, and year
-      const expiryDateObj = new Date(year, getMonthIndex(month), day);
-      const currentDate = new Date();
-      const differenceInTime = expiryDateObj.getTime() - currentDate.getTime();
-      const differenceInDays = differenceInTime / (1000 * 3600 * 24);
-  
-      if (differenceInDays > 0) {
-        itemStatus = 'Not Expired';
-      } else {
-        itemStatus = 'Expired';
-      }
-    }
-  
     const newInventoryItem = {
       id: inventory.length + 1,
       name: name,
       amount: amount,
       spent: spent,
       expiryDate: expiryDate,
-      status: itemStatus
+      status: status
     };
     setInventory([...inventory, newInventoryItem]);
   };
-  
-  // Function to get the index of a month abbreviation
-  function getMonthIndex(month) {
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    return months.indexOf(month);
-  }
-  
+
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
   };
@@ -387,7 +347,7 @@ function App() {
             </div>
             <div className="form-group">
               <label>Status:</label>
-              <input type="text" value={newItem.status} readOnly />
+              <input type="text" name="status" value={newItem.status} onChange={handleInputChange} />
             </div>
             <div className="form-actions">
               <button onClick={handleAddItem}>Save</button>
