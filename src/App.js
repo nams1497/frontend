@@ -97,7 +97,7 @@ function App() {
   const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
 
   // Check if any of the required fields are empty
-  if (!newItem.name || !newItem.amount || !newItem.spent || !newItem.expiryDate || !newItem.status) {
+  if (!newItem.name || !newItem.amount || !newItem.spent || !newItem.expiryDate) {
     // Display an error message or perform any other action
     alert('Please fill in all the fields');
     return; // Exit the function early if validation fails
@@ -373,7 +373,7 @@ function App() {
             </div>
             <div className="form-group">
               <label>Status:</label>
-              <input type="text" name="status" value={newItem.status} onChange={handleInputChange} />
+              <input type="text" value={newItem.status} readOnly />
             </div>
             <div className="form-actions">
               <button onClick={handleAddItem}>Save</button>
