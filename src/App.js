@@ -161,9 +161,17 @@ function App() {
 
   const populateItems = (name, amount, spent, expiryDate, status) => {
     let itemStatus = '';
+  
     if (expiryDate !== '') {
+      // Split expiryDate into parts
+      const parts = expiryDate.split(' ');
+      const day = parseInt(parts[0], 10);
+      const month = parts[1]; // Month abbreviation like "Apr"
+      const year = parseInt(parts[2], 10);
+  
+      // Create a new Date object using the parsed day, month, and year
+      const expiryDateObj = new Date(year, getMonthIndex(month), day);
       const currentDate = new Date();
-      const expiryDateObj = new Date(expiryDate);
       const differenceInTime = expiryDateObj.getTime() - currentDate.getTime();
       const differenceInDays = differenceInTime / (1000 * 3600 * 24);
   
@@ -184,6 +192,12 @@ function App() {
     };
     setInventory([...inventory, newInventoryItem]);
   };
+  
+  // Function to get the index of a month abbreviation
+  function getMonthIndex(month) {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    return months.indexOf(month);
+  }
   
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
