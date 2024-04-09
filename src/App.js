@@ -205,7 +205,7 @@ const handleInputChange = (event) => {
     formData.append('file', file);
 
     try {
-      const response = await fetch('https://new12222-18275757747f.herokuapp.com/exp', {
+      const response = await fetch('https://rohan2121.pythonanywhere.com/', {
         method: 'POST',
         body: formData
       });
@@ -274,7 +274,7 @@ const handleInputChange = (event) => {
     formData.append('file2', file2);
 
     try {
-      const response = await fetch('https://new12222-18275757747f.herokuapp.com/recpt', {
+      const response = await fetch('https://rohan2121.pythonanywhere.com/recpt', {
         method: 'POST',
         body: formData
       });
