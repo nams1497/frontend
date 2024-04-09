@@ -34,7 +34,7 @@ function App() {
   const [msg2, setMsg2] = useState('');
   const [file2, setFile2] = useState(null);
   const [imgSrc2, setImgSrc2] = useState('');
-  const [extractedText2, setExtractedText2] = useState(''); 
+  const [extractedText2, setExtractedText2] = useState('');
   // const webcamRef = useRef(null);
 
   // Define handleEditItem function
@@ -87,10 +87,42 @@ function App() {
     }
   };
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setNewItem({ ...newItem, [name]: value });
-  };
+const handleInputChange = (event) => {
+  const { name, value } = event.target;
+
+  if (name === 'status') {
+    setNewItem((prevItem) => ({
+      ...prevItem,
+      status: value
+    }));
+  } else {
+    setNewItem((prevItem) => ({
+      ...prevItem,
+      [name]: value
+    }));
+  }
+};
+
+  useEffect(() => {
+    const storedInventory = localStorage.getItem('inventory');
+    if (storedInventory) {
+      setInventory(JSON.parse(storedInventory));
+    }
+  }, []);
+
+  useEffect(() => {
+    // Update the status based on the expiry date
+    const updatedInventory = inventory.map(item => {
+      if (new Date(item.expiryDate) < new Date()) {
+        return { ...item, status: 'Expired' };
+      } else {
+        return { ...item, status: 'Not Expired' };
+      }
+    });
+    setInventory(updatedInventory);
+    // Save the updated inventory to local storage
+    localStorage.setItem('inventory', JSON.stringify(updatedInventory));
+  }, []);
 
   const handleAddItem = () => {
   // Regular expression to check for special characters
@@ -130,8 +162,11 @@ function App() {
     return;
   }
 
-  // Add the new item to the inventory
-  const newInventoryItem = { id: inventory.length + 1, ...newItem };
+  // Add the new item to the inventory with the correct status
+  const newInventoryItem = {
+    id: inventory.length + 1,
+    ...newItem,
+  };
   setInventory([...inventory, newInventoryItem]);
 
   // Reset the form fields and hide the add popup
@@ -144,6 +179,7 @@ function App() {
   });
   setShowAddPopup(false);
 };
+
 
 
 
@@ -305,7 +341,7 @@ function App() {
             <p></p>
           )}
         </div>
-        <div> */} 
+        <div> */}
           {/* Remove this form */}
           {/* <form onSubmit={handleUpload2} encType="multipart/form-data">
             <p>
@@ -345,10 +381,15 @@ function App() {
               <label>Expiry Date:</label>
               <input type="text" name="expiryDate" value={newItem.expiryDate} onChange={handleInputChange} />
             </div>
-            <div className="form-group">
-              <label>Status:</label>
-              <input type="text" name="status" value={newItem.status} onChange={handleInputChange} />
-            </div>
+<div className="form-group">
+  <label>Status:</label>
+  <select name="status" value={newItem.status} onChange={handleInputChange}>
+  <option value="Expired">Expired</option>
+  <option value="Not Expired">Not Expired</option>
+</select>
+
+</div>
+
             <div className="form-actions">
               <button onClick={handleAddItem}>Save</button>
               <button onClick={() => togglePopup('add')}>Cancel</button>
@@ -414,7 +455,7 @@ function App() {
               </form>
               {imgSrc1 && <img src={imgSrc1} alt="Uploaded" />}
               {/* populateItems(extractedText1, '', '', msg1, ''); */}
-             </div> 
+             </div>
             {/* <button onClick={() => {
               document.getElementById("uploadForm").submit();
               populateItems(extractedText1, '', '', msg1, '');
