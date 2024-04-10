@@ -1,23 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
 import InventoryList from './components/InventoryList';
 import './App.css';
-
+import DatePicker from 'react-datepicker';
 
 function App() {
   const [inventory, setInventory] = useState(() => {
     const storedInventory = localStorage.getItem('inventory');
-    return storedInventory ? JSON.parse(storedInventory) : [
-      { id: 1, name: 'Apple', amount: 2, spent: '$2', expiryDate: '15 Apr 2024', status: 'Not Expired' },
-      // Add other initial items here
-    ];
+    return storedInventory ? JSON.parse(storedInventory) : [];
   });
   const [showAddPopup, setShowAddPopup] = useState(false);
   const [showScanReceiptPopup, setShowScanReceiptPopup] = useState(false);
   const [showScanProducePopup, setShowScanProducePopup] = useState(false);
   const [showScanPackagePopup, setShowScanPackagePopup] = useState(false);
+  const [expiryPlaceholder, setExpiryPlaceholder] = useState(new Date());
   const [newItem, setNewItem] = useState({
     name: '',
-    amount: 0,
+    amount: '',
     spent: '',
     expiryDate: '',
     status: ''
@@ -56,19 +54,47 @@ function App() {
     setInventory(updatedInventory);
   };
 
-  useEffect(() => {
-    const storedInventory = localStorage.getItem('inventory');
-    if (storedInventory) {
-      setInventory(JSON.parse(storedInventory));
-    }
-  }, []);
+
+
+useEffect(() => {
+  const storedInventory = localStorage.getItem('inventory');
+  if (storedInventory) {
+    setInventory(JSON.parse(storedInventory));
+  }
+}, []);
 
   useEffect(() => {
     localStorage.setItem('inventory', JSON.stringify(inventory));
     console.log("Inventory saved to local storage:", inventory);
   }, [inventory]);
 
+
+  useEffect(() => {
+    // Check expiry dates against current date
+    const updatedInventory = inventory.map(item => {
+      const expiryDate = new Date(item.expiryDate);
+      const currentDate = new Date();
+      if (expiryDate < currentDate) {
+        return { ...item, status: 'Expired' };
+      } else {
+        return { ...item, status: 'Not Expired' };
+      }
+    });
+    setInventory(updatedInventory);
+  }, []);
+
+
+
+
+
+
+//change this to close all
   const togglePopup = (popupType) => {
+  setShowAddPopup(false);
+  setShowScanReceiptPopup(false);
+  setShowScanProducePopup(false);
+  setShowScanPackagePopup(false);
+
     switch (popupType) {
       case 'add':
         setShowAddPopup(!showAddPopup);
@@ -87,10 +113,11 @@ function App() {
     }
   };
 
+
 const handleInputChange = (event) => {
   const { name, value } = event.target;
 
-  if (name === 'status') {
+if (name === 'status') {
     setNewItem((prevItem) => ({
       ...prevItem,
       status: value
@@ -103,33 +130,13 @@ const handleInputChange = (event) => {
   }
 };
 
-  useEffect(() => {
-    const storedInventory = localStorage.getItem('inventory');
-    if (storedInventory) {
-      setInventory(JSON.parse(storedInventory));
-    }
-  }, []);
 
-  useEffect(() => {
-    // Update the status based on the expiry date
-    const updatedInventory = inventory.map(item => {
-      if (new Date(item.expiryDate) < new Date()) {
-        return { ...item, status: 'Expired' };
-      } else {
-        return { ...item, status: 'Not Expired' };
-      }
-    });
-    setInventory(updatedInventory);
-    // Save the updated inventory to local storage
-    localStorage.setItem('inventory', JSON.stringify(updatedInventory));
-  }, []);
-
-  const handleAddItem = () => {
+const handleAddItem = () => {
   // Regular expression to check for special characters
   const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
 
   // Check if any of the required fields are empty
-  if (!newItem.name || !newItem.amount || !newItem.spent || !newItem.expiryDate || !newItem.status) {
+  if (!newItem.name || !newItem.amount || !newItem.spent || !newItem.expiryDate) {
     // Display an error message or perform any other action
     alert('Please fill in all the fields');
     return; // Exit the function early if validation fails
@@ -155,19 +162,22 @@ const handleInputChange = (event) => {
     return;
   }
 
-  // Check if the expiry date is in the correct format (dd MMM yyyy)
-  const expiryDateRegex = /^\d{1,2}\s\w{3}\s\d{4}$/;
-  if (!expiryDateRegex.test(newItem.expiryDate)) {
-    alert('Please enter the expiry date in the format dd MMM yyyy (e.g., 15 Apr 2024)');
-    return;
-  }
-
-  // Add the new item to the inventory with the correct status
+  // Create a new item object
   const newInventoryItem = {
     id: inventory.length + 1,
-    ...newItem,
+    name: newItem.name,
+    amount: parseFloat(newItem.amount),
+    spent: parseFloat(newItem.spent),
+    expiryDate: newItem.expiryDate,
   };
-  setInventory([...inventory, newInventoryItem]);
+
+  // Add the new item to the inventory
+  const updatedInventory = [...inventory, newInventoryItem];
+  setInventory(updatedInventory);
+
+
+  // Update local storage
+  localStorage.setItem('inventory', JSON.stringify(updatedInventory));
 
   // Reset the form fields and hide the add popup
   setNewItem({
@@ -179,9 +189,6 @@ const handleInputChange = (event) => {
   });
   setShowAddPopup(false);
 };
-
-
-
 
   const populateItems = (name, amount, spent, expiryDate, status) => {
     const newInventoryItem = {
@@ -236,7 +243,7 @@ const handleInputChange = (event) => {
     setFile1(e.target.files[0]);
   };
 
-  const handleUpload2 = async (e) => {
+    const handleUpload2 = async (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('file1', file1);
@@ -302,16 +309,22 @@ const handleInputChange = (event) => {
 
   return (
   <div>
-  <div className="toolbar">
-        <button onClick={() => console.log("Check your Savings clicked")}>Check your Savings</button>
-        <button onClick={() => console.log("Recipes clicked")}>Recipes</button>
-        <button onClick={() => console.log("Information clicked")}>Information</button>
-        <button onClick={() => console.log("Recycling Agencies Clicked")}>Recycling Agencies</button>
-        <button onClick={() => console.log("Check My Knowledge Clicked")}>Check My Knowledge</button>
-      </div>
+<div className="toolbar">
+  <div style={{ display: 'flex', alignItems: 'center' }}>
+    <img src="applogo.png" alt="App Logo" style={{ width: '40px', height: '40px', marginRight: '10px' }} />
+    <span style={{ color: 'green', fontWeight: 'bold' }}>EcoEats</span>
+  </div>
+  <div className="toolbardiv">
+  <button onClick={() => console.log("Recipes clicked")}>Recipes</button>
+  <button onClick={() => console.log("Information clicked")}>Information</button>
+  <button onClick={() => console.log("Recycling Agencies Clicked")}>Recycling Agencies</button>
+  <button onClick={() => console.log("Check My Knowledge Clicked")}>Check My Knowledge</button>
+  </div>
+  <div></div>
+</div>
     <div className="App">
 
-      <header>Your Fridge</header>
+      <header>Inventory</header>
       <InventoryList
         inventory={inventory}
         onEdit={handleEditItem}
@@ -324,40 +337,7 @@ const handleInputChange = (event) => {
           <button onClick={() => togglePopup('package')}>Scan Package</button>
           <button onClick={() => togglePopup('produce')}>Scan Fresh Produce</button>
         </div>
-        {/* <div>
-          {msg && <h1></h1>}
-          <form onSubmit={handleUpload} encType="multipart/form-data">
-            <p>
-              {/* Remove this input */}
-              {/* <input type="file" name="file" onChange={handleFileChange} /> */}
-            {/* </p>
-          </form>
-          {imgSrc && <img src={imgSrc} alt="Uploaded" />}
-          {extractedText ? (
-            <p>
-              <b>{extractedText}</b>
-            </p>
-          ) : (
-            <p></p>
-          )}
-        </div>
-        <div> */}
-          {/* Remove this form */}
-          {/* <form onSubmit={handleUpload2} encType="multipart/form-data">
-            <p>
-              <input type="file" name="file1" onChange={handleFileChange1} />
-              <input type="submit" value="Upload" />
-            </p>
-          </form> */}
-          {/* {imgSrc1 && <img src={imgSrc1} alt="Uploaded" />}
-          {extractedText1 ? (
-            <p>
-              <b>{extractedText1}</b>
-            </p>
-          ) : (
-            <p></p>
-          )}
-        </div> */}
+
         {/* Add Popup */}
         {showAddPopup && (
           <div className="popup large-popup">
@@ -368,7 +348,7 @@ const handleInputChange = (event) => {
             </div>
             <div className="form-group">
               <label>Amount:</label>
-              <input type="number" name="amount" value={newItem.amount} onChange={handleInputChange} />
+              <input type="text" name="amount" value={newItem.amount} onChange={handleInputChange} />
             </div>
             <div className="form-group">
             <div className="form-group">
@@ -376,19 +356,20 @@ const handleInputChange = (event) => {
               <input type="text" name="spent" value={newItem.spent} onChange={handleInputChange} />
             </div>
             </div>
+<DatePicker
+  selected={expiryPlaceholder}
+  onChange={(date) => {
+    // Format the selected date
+    const formattedDate = date.toLocaleDateString('en-GB').toString();
+    // Set the formatted date to the expiryPlaceholder
+    setExpiryPlaceholder(date);
+    // Update the expiry date in newItem
+    setNewItem(prevItem => ({ ...prevItem, expiryDate: formattedDate }));
+  }}
+  dateFormat="dd/MM/yyyy"
+  className="date-picker"
+/>
 
-            <div className="form-group">
-              <label>Expiry Date:</label>
-              <input type="text" name="expiryDate" value={newItem.expiryDate} onChange={handleInputChange} />
-            </div>
-<div className="form-group">
-  <label>Status:</label>
-  <select name="status" value={newItem.status} onChange={handleInputChange}>
-  <option value="Expired">Expired</option>
-  <option value="Not Expired">Not Expired</option>
-</select>
-
-</div>
 
             <div className="form-actions">
               <button onClick={handleAddItem}>Save</button>
@@ -431,22 +412,6 @@ const handleInputChange = (event) => {
         {showScanProducePopup && (
           <div className="popup">
             <h2>Scan Produce</h2>
-            {/* <div className="scan-options">
-              <form id="uploadForm" onSubmit={handleUpload2} encType="multipart/form-data">
-              <p>
-              <input type="file" name="file1" onChange={handleFileChange1} />
-              <input type="submit" value="Upload" />
-              </p>
-              </form>
-              {imgSrc1 && <img src={imgSrc1} alt="Uploaded" />}
-              {extractedText1 ? (
-                <p>
-                  <b>{extractedText1}</b>
-                </p>
-              ) : (
-                <p></p>
-              )}
-            </div> */}
 
             <div className="scan-options">
               <form id="uploadForm" onSubmit={handleUpload2} encType="multipart/form-data">
