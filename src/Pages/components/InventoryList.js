@@ -7,8 +7,16 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
   const [updatedValues, setUpdatedValues] = useState({});
 
   const handleEdit = (id, item) => {
+    // Parse the expiry date to ensure it's in Date format
+    const parts = item.expiryDate.split('/');
+    const formattedExpiryDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+
+    // Format the date in the "15 Apr 2024" format
+    const options = { day: '2-digit', month: 'short', year: 'numeric' };
+    const formattedDateString = formattedExpiryDate.toLocaleDateString('en-US', options);
+
     setEditingItem(id);
-    setUpdatedValues({ ...item });
+    setUpdatedValues({ ...item, expiryDate: formattedDateString });
   };
 
   const handleInputChange = (e, field) => {
@@ -50,10 +58,22 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
       return;
     }
 
-    // Here we update the state with the new expiryDate from the DatePicker
-    onEdit(id, { ...updatedValues, expiryDate: updatedValues.expiryDate });
+    // Convert the expiryDate to the desired format "dd/MM/yyyy"
+    const formattedExpiryDate = `${updatedValues.expiryDate.getDate()} ${getMonthName(updatedValues.expiryDate.getMonth())} ${updatedValues.expiryDate.getFullYear()}`;
+
+    // Here we update the state with the new expiryDate as a string
+    onEdit(id, { ...updatedValues, expiryDate: formattedExpiryDate });
     setEditingItem(null);
     setUpdatedValues({});
+  };
+
+  // Function to get the name of the month from its numeric representation
+  const getMonthName = (month) => {
+    const monthNames = [
+      "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+    ];
+    return monthNames[month];
   };
 
   return (
@@ -97,7 +117,7 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
                 <DatePicker
                   selected={updatedValues.expiryDate}
                   onChange={(date) => handleDateChange(date)}
-                  dateFormat="dd/MM/yyyy"
+                  dateFormat="dd MMM yyyy"
                 />
               ) : (
                 item.expiryDate

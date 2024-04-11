@@ -69,19 +69,26 @@ useEffect(() => {
   }, [inventory]);
 
 
-  useEffect(() => {
-    // Check expiry dates against current date
-    const updatedInventory = inventory.map(item => {
-      const expiryDate = new Date(item.expiryDate);
-      const currentDate = new Date();
-      if (expiryDate < currentDate) {
-        return { ...item, status: 'Expired' };
-      } else {
-        return { ...item, status: 'Not Expired' };
-      }
-    });
-    setInventory(updatedInventory);
-  }, []);
+useEffect(() => {
+  // Check expiry dates against current date
+  const updatedInventory = inventory.map(item => {
+    // Split the date string and rearrange it to "YYYY-MM-DD" format
+    const parts = item.expiryDate.split('/');
+    const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+
+    const expiryDate = new Date(formattedDate);
+    const currentDate = new Date();
+
+    if (expiryDate < currentDate) {
+      console.log("Item expired:", item.name);
+      return { ...item, status: 'Expired' };
+    } else {
+      console.log("Item not expired:", item.name);
+      return { ...item, status: 'Not Expired' };
+    }
+  });
+  setInventory(updatedInventory);
+}, []);
 
 
 
@@ -360,15 +367,16 @@ const handleAddItem = () => {
   selected={expiryPlaceholder}
   onChange={(date) => {
     // Format the selected date
-    const formattedDate = date.toLocaleDateString('en-GB').toString();
+    const formattedDate = date.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
     // Set the formatted date to the expiryPlaceholder
     setExpiryPlaceholder(date);
     // Update the expiry date in newItem
     setNewItem(prevItem => ({ ...prevItem, expiryDate: formattedDate }));
   }}
-  dateFormat="dd/MM/yyyy"
+  dateFormat="dd MMM yyyy"
   className="date-picker"
 />
+
 
 
             <div className="form-actions">
