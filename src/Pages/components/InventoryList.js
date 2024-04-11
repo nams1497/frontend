@@ -26,35 +26,39 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
     }));
   };
 
-  const handleSave = (id) => {
-    if (!updatedValues.name || !updatedValues.amount || !updatedValues.spent || !updatedValues.expiryDate) {
-      alert('Please fill in all the fields');
-      return;
-    }
+const handleSave = (id) => {
+  if (!updatedValues.name || !updatedValues.amount || !updatedValues.spent || !updatedValues.expiryDate) {
+    alert('Please fill in all the fields');
+    return;
+  }
 
-    const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
-    if (specialCharsRegex.test(updatedValues.name) || specialCharsRegex.test(updatedValues.status)) {
-      alert('Please do not use special characters in the name or status field');
-      return;
-    }
+  const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+  if (specialCharsRegex.test(updatedValues.name) || specialCharsRegex.test(updatedValues.status)) {
+    alert('Please do not use special characters in the name or status field');
+    return;
+  }
 
-    const amount = parseFloat(updatedValues.amount);
-    if (isNaN(amount) || amount <= 0) {
-      alert('Please enter a valid amount');
-      return;
-    }
+  const amount = parseFloat(updatedValues.amount);
+  if (isNaN(amount) || amount <= 0) {
+    alert('Please enter a valid amount');
+    return;
+  }
 
-    const spent = parseFloat(updatedValues.spent);
-    if (isNaN(spent) || spent <= 0) {
-      alert('Please enter a valid spent amount');
-      return;
-    }
+  const spent = parseFloat(updatedValues.spent);
+  if (isNaN(spent) || spent <= 0) {
+    alert('Please enter a valid spent amount');
+    return;
+  }
 
-    // Here we update the state with the new expiryDate from the DatePicker
-    onEdit(id, { ...updatedValues, expiryDate: updatedValues.expiryDate });
-    setEditingItem(null);
-    setUpdatedValues({});
-  };
+  // Convert expiryDate to a string
+  const formattedExpiryDate = updatedValues.expiryDate.toLocaleDateString('en-US');
+
+  // Here we update the state with the new expiryDate as a string
+  onEdit(id, { ...updatedValues, expiryDate: formattedExpiryDate });
+  setEditingItem(null);
+  setUpdatedValues({});
+};
+
 
   return (
     <table>
