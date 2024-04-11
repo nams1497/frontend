@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const InventoryList = ({ inventory, onEdit, onDelete }) => {
   const [editingItem, setEditingItem] = useState(null);
@@ -17,8 +19,39 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
     }));
   };
 
+  const handleDateChange = (date) => {
+    setUpdatedValues(prevValues => ({
+      ...prevValues,
+      expiryDate: date
+    }));
+  };
+
   const handleSave = (id) => {
-    onEdit(id, updatedValues);
+    if (!updatedValues.name || !updatedValues.amount || !updatedValues.spent || !updatedValues.expiryDate) {
+      alert('Please fill in all the fields');
+      return;
+    }
+
+    const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+    if (specialCharsRegex.test(updatedValues.name) || specialCharsRegex.test(updatedValues.status)) {
+      alert('Please do not use special characters in the name or status field');
+      return;
+    }
+
+    const amount = parseFloat(updatedValues.amount);
+    if (isNaN(amount) || amount <= 0) {
+      alert('Please enter a valid amount');
+      return;
+    }
+
+    const spent = parseFloat(updatedValues.spent);
+    if (isNaN(spent) || spent <= 0) {
+      alert('Please enter a valid spent amount');
+      return;
+    }
+
+    // Here we update the state with the new expiryDate from the DatePicker
+    onEdit(id, { ...updatedValues, expiryDate: updatedValues.expiryDate });
     setEditingItem(null);
     setUpdatedValues({});
   };
@@ -38,11 +71,39 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
       <tbody>
         {inventory.map((item) => (
           <tr key={item.id}>
-            <td>{editingItem === item.id ? <input type="text" value={updatedValues.name} onChange={(e) => handleInputChange(e, 'name')} /> : item.name}</td>
-            <td>{editingItem === item.id ? <input type="number" value={updatedValues.amount} onChange={(e) => handleInputChange(e, 'amount')} /> : item.amount}</td>
-            <td>{editingItem === item.id ? <input type="text" value={updatedValues.spent} onChange={(e) => handleInputChange(e, 'spent')} /> : item.spent}</td>
-            <td>{editingItem === item.id ? <input type="text" value={updatedValues.expiryDate} onChange={(e) => handleInputChange(e, 'expiryDate')} /> : item.expiryDate}</td>
-            <td>{editingItem === item.id ? <input type="text" value={updatedValues.status} onChange={(e) => handleInputChange(e, 'status')} /> : item.status}</td>
+            <td>
+              {editingItem === item.id ? (
+                <input type="text" value={updatedValues.name} onChange={(e) => handleInputChange(e, 'name')} />
+              ) : (
+                item.name
+              )}
+            </td>
+            <td>
+              {editingItem === item.id ? (
+                <input type="text" value={updatedValues.amount} onChange={(e) => handleInputChange(e, 'amount')} />
+              ) : (
+                item.amount
+              )}
+            </td>
+            <td>
+              {editingItem === item.id ? (
+                <input type="text" value={updatedValues.spent} onChange={(e) => handleInputChange(e, 'spent')} />
+              ) : (
+                item.spent
+              )}
+            </td>
+            <td>
+              {editingItem === item.id ? (
+                <DatePicker
+                  selected={updatedValues.expiryDate}
+                  onChange={(date) => handleDateChange(date)}
+                  dateFormat="dd/MM/yyyy"
+                />
+              ) : (
+                item.expiryDate
+              )}
+            </td>
+            <td>{item.status}</td>
             <td>
               {editingItem === item.id ? (
                 <button onClick={() => handleSave(item.id)}>Save</button>
@@ -59,6 +120,5 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
     </table>
   );
 };
-
 
 export default InventoryList;
