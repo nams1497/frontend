@@ -5,7 +5,7 @@ body, html {
   padding: 0;
   font-family: 'Arial', sans-serif;
   background-color: #f4f4f4;
-  background-image: url('/public/back.jpg');
+  background-image: url('images/inventoryback.jpeg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center 25%; /* Adjust background position to start from 1/4 of the page */
@@ -75,8 +75,10 @@ th, td {
 
 
 th {
-  background: linear-gradient(to right, #5ca9fb 0%, #6372ff 100%);
+  background: linear-gradient(to right, #e6d5f5, #f0f0f0);
 }
+
+
 
 tr:hover {
   background-color: #84c38b;
