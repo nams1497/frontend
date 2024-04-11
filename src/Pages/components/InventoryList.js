@@ -97,16 +97,17 @@ const handleSave = (id) => {
               )}
             </td>
             <td>
-              {editingItem === item.id ? (
-                <DatePicker
-                  selected={updatedValues.expiryDate}
-                  onChange={(date) => handleDateChange(date)}
-                  dateFormat="dd/MM/yyyy"
-                />
-              ) : (
-                item.expiryDate
-              )}
-            </td>
+  {editingItem === item.id ? (
+    <DatePicker
+      selected={updatedValues.expiryDate}
+      onChange={(date) => handleDateChange(date)}
+      dateFormat="dd MMM yyyy"
+    />
+  ) : (
+    item.expiryDate
+  )}
+</td>
+
             <td>{item.status}</td>
             <td>
               {editingItem === item.id ? (
