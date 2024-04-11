@@ -76,23 +76,23 @@ hr {
   transition: all 0.8s;
 }
 #menu.navbar-default {
-  background: linear-gradient(to bottom, #d9d8e8 10%, #dedcff 100%);
+  background: linear-gradient(to bottom, #c795de 10%, #e5d3e9 100%);
   border-color: rgba(8, 7, 7, 0);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
 #menu a.navbar-brand {
   font-family: "Raleway", sans-serif;
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 800;
   color: #333;
   text-transform: uppercase;
 }
 #menu.navbar-default .navbar-nav > li > a {
   font-family: "Lato", sans-serif;
   text-transform: uppercase;
-  color: #555;
+  color: #191313;
   font-size: 15px;
-  font-weight: 400;
+  font-weight: 500;
   padding: 8px 2px;
   border-radius: 0;
   margin: 9px 20px 0;
@@ -103,8 +103,8 @@ hr {
   left: 0;
   bottom: -1px;
   width: 0;
-  height: 2px;
-  background: linear-gradient(to right, #6372ff 0%, #5ca9fb 100%);
+  height: 3px;
+  background: linear-gradient(to right, #1919f0 0%, #e8081a 100%);
   content: "";
   transition: width 0.2s;
 }
