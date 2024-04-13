@@ -6,18 +6,44 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
   const [editingItem, setEditingItem] = useState(null);
   const [updatedValues, setUpdatedValues] = useState({});
 
+  // save original data of each item
+  const [originalValues, setOriginalValues] = useState({});
+
+  // const handleEdit = (id, item) => {
+  //   // Parse the expiry date to ensure it's in Date format
+  //   const parts = item.expiryDate.split('/');
+  //   const formattedExpiryDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+
+  //   // Format the date in the "15 Apr 2024" format
+  //   const options = { day: '2-digit', month: 'short', year: 'numeric' };
+  //   const formattedDateString = formattedExpiryDate.toLocaleDateString('en-US', options);
+
+  //   setEditingItem(id);
+  //   setUpdatedValues({ ...item, expiryDate: formattedDateString });
+  // };
+
   const handleEdit = (id, item) => {
-    // Parse the expiry date to ensure it's in Date format
     const parts = item.expiryDate.split('/');
     const formattedExpiryDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
 
-    // Format the date in the "15 Apr 2024" format
-    const options = { day: '2-digit', month: 'short', year: 'numeric' };
-    const formattedDateString = formattedExpiryDate.toLocaleDateString('en-US', options);
-
+    setOriginalValues(item);
+  
     setEditingItem(id);
-    setUpdatedValues({ ...item, expiryDate: formattedDateString });
+    setUpdatedValues({ 
+      ...item, 
+      expiryDate: formattedExpiryDate, 
+    });
+
+
+    
   };
+
+
+  const handleCancel = () => {
+    setUpdatedValues(originalValues); 
+    setEditingItem(null); 
+  };
+  
 
   const handleInputChange = (e, field) => {
     const { value } = e.target;
@@ -67,6 +93,9 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
     setUpdatedValues({});
   };
 
+
+  
+
   // Function to get the name of the month from its numeric representation
   const getMonthName = (month) => {
     const monthNames = [
@@ -76,13 +105,15 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
     return monthNames[month];
   };
 
+
+
   return (
     <table>
       <thead>
         <tr>
           <th>Name</th>
           <th>Amount</th>
-          <th>Spent($)</th>
+          <th>Spent</th>
           <th>Expiry Date</th>
           <th>Status</th>
           <th>Actions</th>
@@ -98,6 +129,8 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
                 item.name
               )}
             </td>
+
+
             <td>
               {editingItem === item.id ? (
                 <input type="text" value={updatedValues.amount} onChange={(e) => handleInputChange(e, 'amount')} />
@@ -105,13 +138,20 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
                 item.amount
               )}
             </td>
+
+
             <td>
               {editingItem === item.id ? (
                 <input type="text" value={updatedValues.spent} onChange={(e) => handleInputChange(e, 'spent')} />
+                
+
               ) : (
                 item.spent
               )}
             </td>
+
+
+
             <td>
               {editingItem === item.id ? (
                 <DatePicker
@@ -126,7 +166,10 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
             <td>{item.status}</td>
             <td>
               {editingItem === item.id ? (
-                <button onClick={() => handleSave(item.id)}>Save</button>
+                <React.Fragment>
+                  <button onClick={() => handleSave(item.id)}>Save</button>
+                  <button onClick={handleCancel}>Cancel</button>
+                </React.Fragment>
               ) : (
                 <React.Fragment>
                   <button onClick={() => handleEdit(item.id, item)} style={{ cursor: 'pointer', marginLeft: '-7px', marginRight: '10px', color: 'green' }}>Edit</button>

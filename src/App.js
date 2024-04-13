@@ -34,6 +34,9 @@ function App() {
                             <Recipes />
                         </div>
                     } />
+
+
+                   
                 <Route exact path="/information" element={
                         <div style={{ width: '100%', height: '100%' }}>
                             <Information />

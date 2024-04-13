@@ -37,7 +37,10 @@ export const Navigation = (props) => {
               Recipes
               </a>
             </li>
-            <li>
+
+
+            {/* For next iterations */} 
+            {/* <li>
               <a href="/information" className="page-scroll">
               Information
               </a>
@@ -51,7 +54,10 @@ export const Navigation = (props) => {
               <a href="/Knowledge" className="page-scroll">
               Check My Knowledge
               </a>
-            </li>
+            </li> */}
+
+
+            
           </ul>
         </div>
       </div>
