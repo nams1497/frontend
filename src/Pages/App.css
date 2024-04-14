@@ -111,6 +111,9 @@ tr:hover {
   width: 90%;
   max-height: 80%;
   overflow-y: auto;
+
+
+  z-index: 1001;
 }
 
 .popup h2 {
@@ -204,6 +207,13 @@ tr:hover {
   background-color: #0056b3;
 }
 
+
+
+
+
+
+
+
 /* Add this CSS to style the date picker calendar */
 
 /* Styling the date picker input field */
@@ -218,6 +228,9 @@ tr:hover {
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  min-height: 400px; /* Increase the min-height to extend the white background */
+  font-size: 1em;
 }
 
 /* Styling the header of the date picker calendar */
@@ -230,22 +243,41 @@ tr:hover {
 .react-datepicker__navigation--previous,
 .react-datepicker__navigation--next {
   border: none;
+  top: 20px;
+  width: 20px;
+  height: 20px;
+  border-width: 2px;
+}
+
+.react-datepicker__navigation--previous {
+  left: 20px;
+}
+
+.react-datepicker__navigation--next {
+  right: 20px;
 }
 
 /* Styling the month and year selector */
-.react-datepicker__current-month,
-.react-datepicker__current-year {
+.react-datepicker__current-month {
   font-weight: bold;
+  font-size: 1em;
+  padding: 10px;
 }
 
 /* Styling the weekdays */
 .react-datepicker__day-name {
   color: #666;
+  padding: 5px;
+  width: 2.5em;
+  line-height: 2.5em;
 }
 
 /* Styling the days */
 .react-datepicker__day {
   color: #333;
+  width: 2.5em;
+  line-height: 2.5em;
+  margin: 0.166em;
 }
 
 /* Styling the selected day */
@@ -269,3 +301,18 @@ tr:hover {
 .react-datepicker__day--today {
   font-weight: bold;
 }
+
+
+
+
+
+.modal-overlay {
+  position: fixed; /* or absolute */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+  z-index: 999; /* Below the modal, above the content */
+}
+

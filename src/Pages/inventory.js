@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import InventoryList from './components/InventoryList';
 import './App.css';
 import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export function Maininventory() {
   const [inventory, setInventory] = useState(() => {
@@ -57,6 +58,16 @@ export function Maininventory() {
   };
 
 
+  // Determine if any popup is active
+  const isPopupActive = showAddPopup || showScanReceiptPopup || showScanProducePopup || showScanPackagePopup;
+  const closeAllPopups = () => {
+    setShowAddPopup(false);
+    setShowScanReceiptPopup(false);
+    setShowScanProducePopup(false);
+    setShowScanPackagePopup(false);
+  };
+
+
 
   useEffect(() => {
     const storedInventory = localStorage.getItem('inventory');
@@ -99,42 +110,49 @@ export function Maininventory() {
 
   //change this to close all
   const togglePopup = (popupType) => {
-    setShowAddPopup(false);
-    setShowScanReceiptPopup(false);
-    setShowScanProducePopup(false);
-    setShowScanPackagePopup(false);
+    
 
-    switch (popupType) {
-      case 'add':
-        if (!showAddPopup) {
-          // If the add popup is about to be opened, reset the expiry date as today
-          const today = new Date();
-          setExpiryPlaceholder(today);
-          setNewItem(prevItem => ({
-            ...prevItem,
-            name: '',
-            amount: '',
-            spent: '',
-            // Ensure the expiryDate is set to a formatted version of today's date
-            expiryDate: today.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
-            status: ''
-          }));
-        }
-        setShowAddPopup(!showAddPopup);
-        break;
-      case 'receipt':
-        setShowScanReceiptPopup(!showScanReceiptPopup);
-        break;
-      case 'produce':
-        setShowScanProducePopup(!showScanProducePopup);
-        break;
-      case 'package':
-        setShowScanPackagePopup(!showScanPackagePopup);
-        break;
-      default:
-        break;
-    }
-  };
+
+
+
+      setShowAddPopup(false);
+      setShowScanReceiptPopup(false);
+      setShowScanProducePopup(false);
+      setShowScanPackagePopup(false);
+
+      switch (popupType) {
+        case 'add':
+          if (!showAddPopup) {
+            // If the add popup is about to be opened, reset the expiry date as today
+            const today = new Date();
+            setExpiryPlaceholder(today);
+            setNewItem(prevItem => ({
+              ...prevItem,
+              name: '',
+              amount: '',
+              spent: '',
+              // Ensure the expiryDate is set to a formatted version of today's date
+              expiryDate: today.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
+              status: ''
+            }));
+          }
+          setShowAddPopup(!showAddPopup);
+          break;
+        case 'receipt':
+          setShowScanReceiptPopup(!showScanReceiptPopup);
+          break;
+        case 'produce':
+          setShowScanProducePopup(!showScanProducePopup);
+          break;
+        case 'package':
+          setShowScanPackagePopup(!showScanPackagePopup);
+          break;
+        default:
+          break;
+      }
+    };
+
+  
 
 
   const handleInputChange = (event) => {
@@ -360,7 +378,11 @@ export function Maininventory() {
   };
 
   return (
+
+
     <div>
+      {isPopupActive && <div className="modal-overlay" onClick={closeAllPopups}></div>}
+      <div className="main-content"></div>
       <div className="toolbar">
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <img src="applogo.png" alt="App Logo" style={{ width: '40px', height: '40px', marginRight: '10px' }} />
@@ -375,23 +397,36 @@ export function Maininventory() {
         <div></div>
       </div>
       <div className="App">
-
         <header>YOUR INVENTORY</header>
         <InventoryList
           inventory={inventory}
           onEdit={handleEditItem}
           onDelete={handleDeleteItem}
+
+          togglePopup={togglePopup} // Add this line to pass the function as a prop
         />
         <div className="actions">
           <button className="add-button" onClick={() => togglePopup('add')}>Add Manually</button>
           <div className="scan-buttons">
             <button onClick={() => togglePopup('receipt')}>Scan Receipt</button>
-            <button onClick={() => togglePopup('package')}>Scan Package</button>
-            <button onClick={() => togglePopup('produce')}>Scan Fresh Produce</button>
+            {/* <button onClick={() => togglePopup('package')}>Scan Package</button>
+            <button onClick={() => togglePopup('produce')}>Scan Fresh Produce</button> */}
           </div>
+
+
+
+          {showAddPopup && (
+            <div
+              className="modal-overlay"
+              onClick={() => setShowAddPopup(false)}
+            ></div>
+          )}
+
+
 
           {/* Add Popup */}
           {showAddPopup && (
+
             <div className="popup large-popup">
               <h2>Add New Item</h2>
               <div className="form-group">
@@ -422,9 +457,20 @@ export function Maininventory() {
                     setNewItem(prevItem => ({ ...prevItem, expiryDate: formattedDate }));
                   }}
                   dateFormat="dd MMM yyyy"
-                  className="date-picker"
+
+                  // Add a specific class name for date picker in adding item mode
+                  className="date-picker add-date-picker"
                 />
               </div>
+
+              {/* scan  bottons to get expiry date directly */}
+              <div className="scan-buttons">
+                <button onClick={() => togglePopup('package')}>Scan Package</button>
+                <button onClick={() => togglePopup('produce')}>Scan Fresh Produce</button>
+              </div>
+
+
+
 
 
 
@@ -433,10 +479,12 @@ export function Maininventory() {
                 <button onClick={() => togglePopup('add')}>Cancel</button>
               </div>
             </div>
+
           )}
 
           {/* Scan Receipt Popup */}
           {showScanReceiptPopup && (
+
             <div className="popup">
               <h2>Scan Receipt</h2>
               <div className="scan-options">
@@ -448,10 +496,12 @@ export function Maininventory() {
               </div>
               <button onClick={() => togglePopup('receipt')}>Cancel</button>
             </div>
+
           )}
 
           {/* Scan Package Popup */}
           {showScanPackagePopup && (
+
             <div className="popup">
               <h2>Scan Package</h2>
               <div className="scan-options">
@@ -463,10 +513,12 @@ export function Maininventory() {
               </div>
               <button onClick={() => togglePopup('package')}>Cancel</button>
             </div>
+
           )}
 
           {/* Scan Fresh Produce Popup */}
           {showScanProducePopup && (
+
             <div className="popup">
               <h2>Scan Produce</h2>
 
@@ -484,6 +536,7 @@ export function Maininventory() {
               }}>Upload</button> */}
               <button onClick={() => togglePopup('produce')}>Cancel</button>
             </div>
+
           )}
         </div>
       </div>

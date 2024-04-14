@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const InventoryList = ({ inventory, onEdit, onDelete }) => {
+const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
   const [editingItem, setEditingItem] = useState(null);
   const [updatedValues, setUpdatedValues] = useState({});
 
@@ -143,7 +143,7 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
             <td>
               {editingItem === item.id ? (
                 <input type="text" value={updatedValues.spent} onChange={(e) => handleInputChange(e, 'spent')} />
-                
+
 
               ) : (
                 item.spent
@@ -154,11 +154,19 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
 
             <td>
               {editingItem === item.id ? (
-                <DatePicker
-                  selected={updatedValues.expiryDate}
-                  onChange={(date) => handleDateChange(date)}
-                  dateFormat="dd MMM yyyy"
-                />
+                <>
+                  <DatePicker
+                    selected={updatedValues.expiryDate}
+                    onChange={(date) => handleDateChange(date)}
+                    dateFormat="dd MMM yyyy"
+                    // Add a specific class name for css design
+                    className="date-picker edit-date-picker"
+                  />
+                  <div className="scan-buttons">
+                    <button onClick={() => togglePopup('package')}>Scan Package</button>
+                    <button onClick={() => togglePopup('produce')}>Scan Fresh Produce</button>
+                  </div>
+                </>
               ) : (
                 item.expiryDate
               )}
@@ -171,9 +179,31 @@ const InventoryList = ({ inventory, onEdit, onDelete }) => {
                   <button onClick={handleCancel}>Cancel</button>
                 </React.Fragment>
               ) : (
+                // <React.Fragment>
+                //   <button onClick={() => handleEdit(item.id, item)} style={{ cursor: 'pointer', marginLeft: '-7px', marginRight: '10px', color: 'green' }}>Edit</button>
+                //   <button onClick={() => onDelete(item.id)} style={{ cursor: 'pointer', color: 'green' }}>Delete</button>
+                // </React.Fragment>
                 <React.Fragment>
-                  <button onClick={() => handleEdit(item.id, item)} style={{ cursor: 'pointer', marginLeft: '-7px', marginRight: '10px', color: 'green' }}>Edit</button>
-                  <button onClick={() => onDelete(item.id)} style={{ cursor: 'pointer', color: 'green' }}>Delete</button>
+                  <button
+                    onClick={() => handleEdit(item.id, item)}
+                    disabled={editingItem !== null && editingItem !== item.id}
+                    style={{
+                      cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
+                      color: editingItem !== null && editingItem !== item.id ? 'grey' : 'green'
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => onDelete(item.id)}
+                    disabled={editingItem !== null && editingItem !== item.id}
+                    style={{
+                      cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
+                      color: editingItem !== null && editingItem !== item.id ? 'grey' : 'red'
+                    }}
+                  >
+                    Delete
+                  </button>
                 </React.Fragment>
               )}
             </td>
