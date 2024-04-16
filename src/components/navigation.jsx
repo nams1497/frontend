@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "../ProjectLogo.png"; // Import the image
 
 export const Navigation = (props) => {
   return (
@@ -17,9 +18,13 @@ export const Navigation = (props) => {
             <span className="icon-bar"></span>{" "}
             <span className="icon-bar"></span>{" "}
           </button>
-          <a className="navbar-brand page-scroll" href="/">
-            Ecoeats
-          </a>{" "}
+          {/* Container for the logo and text */}
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <img src={logo} style={{ width: '80px', height: '60px', marginRight: '0px' }} />
+            <a className="navbar-brand page-scroll" href="/">
+              Ecoeats
+            </a>{" "}
+          </div>
         </div>
 
         <div
@@ -39,7 +44,7 @@ export const Navigation = (props) => {
             </li>
 
 
-            {/* For next iterations */} 
+            {/* For next iterations */}
             {/* <li>
               <a href="/information" className="page-scroll">
               Information
@@ -57,10 +62,12 @@ export const Navigation = (props) => {
             </li> */}
 
 
-            
+
           </ul>
         </div>
       </div>
     </nav>
   );
 };
+
+export default Navigation;

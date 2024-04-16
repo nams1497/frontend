@@ -162,10 +162,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
                     // Add a specific class name for css design
                     className="date-picker edit-date-picker"
                   />
-                  <div className="scan-buttons">
-                    <button onClick={() => togglePopup('package')}>Scan Package</button>
-                    <button onClick={() => togglePopup('produce')}>Scan Fresh Produce</button>
-                  </div>
+
                 </>
               ) : (
                 item.expiryDate

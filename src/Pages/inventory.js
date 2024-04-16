@@ -82,26 +82,6 @@ export function Maininventory() {
   }, [inventory]);
 
 
-  // useEffect(() => {
-  //   // Check expiry dates against current date
-  //   const updatedInventory = inventory.map(item => {
-  //     // Split the date string and rearrange it to "YYYY-MM-DD" format
-  //     const parts = item.expiryDate.split('/');
-  //     const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
-
-  //     const expiryDate = new Date(formattedDate);
-  //     const currentDate = new Date();
-
-  //     if (expiryDate < currentDate) {
-  //       console.log("Item expired:", item.name);
-  //       return { ...item, status: 'Expired' };
-  //     } else {
-  //       console.log("Item not expired:", item.name);
-  //       return { ...item, status: 'Not Expired' };
-  //     }
-  //   });
-  //   setInventory(updatedInventory);
-  // }, []);
 
 
 
@@ -385,7 +365,7 @@ export function Maininventory() {
       <div className="main-content"></div>
       <div className="toolbar">
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <img src="applogo.png" alt="App Logo" style={{ width: '40px', height: '40px', marginRight: '10px' }} />
+          <img src="ProjectLogo.png" alt="App Logo" style={{ width: '40px', height: '40px', marginRight: '10px' }} />
           <span style={{ color: 'green', fontWeight: 'bold' }}>EcoEats</span>
         </div>
         <div className="toolbardiv">

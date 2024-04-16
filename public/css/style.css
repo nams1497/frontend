@@ -75,16 +75,25 @@ hr {
   padding: 15px;
   transition: all 0.8s;
 }
+
+/* Logo and Ecoeats text alignment */
+#menu .navbar-brand {
+  display: flex;
+  align-items: center; /* Align logo and text vertically */
+}
+
 #menu.navbar-default {
-  background: linear-gradient(to bottom, #c795de 10%, #e5d3e9 100%);
+  background: linear-gradient(to bottom, #f5f5f5, #e0e0e0);
   border-color: rgba(8, 7, 7, 0);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
 }
+
+
 #menu a.navbar-brand {
   font-family: "Raleway", sans-serif;
   font-size: 24px;
-  font-weight: 800;
-  color: #333;
+  font-weight: 700;
+  color: green;
   text-transform: uppercase;
 }
 #menu.navbar-default .navbar-nav > li > a {
@@ -203,28 +212,28 @@ a:focus,
   outline: none;
   outline-offset: none;
 }
-/* Header Section */
 .intro {
   display: table;
   width: 100%;
   padding: 0;
-  background: url(../img/1.jpeg) center center no-repeat;
-  background-color: #e5e5e5;
+  background: url(../img/fridge.jpeg) center center no-repeat;
+  background-color: rgba(229, 229, 229, 0.2); /* Add a semicolon here */
   -webkit-background-size: cover;
   -moz-background-size: cover;
   background-size: cover;
   -o-background-size: cover;
 }
+
 .intro .overlay {
   background: rgba(0, 0, 0, 0.2);
 }
 .intro h1 {
   font-family: "Raleway", sans-serif;
-  color: #fff;
-  font-size: 82px;
+  color: #000;
+  font-size: 72px;
   font-weight: 700;
   text-transform: uppercase;
-  margin-top: 0;
+  margin-top: -10px;
   margin-bottom: 10px;
 }
 .intro h1 span {
@@ -232,13 +241,34 @@ a:focus,
   color: #5ca9fb;
 }
 .intro p {
-  color: #fff;
+  color: #000;
   font-size: 22px;
-  font-weight: 300;
+  font-weight: 500;
   line-height: 30px;
   margin: 0 auto;
   margin-bottom: 60px;
 }
+
+.intro {
+  position: relative; /* Ensure positioning context for pseudo-element */
+  z-index: 1; /* Ensure the text stays above the pseudo-element */
+}
+
+.intro h1::before,
+.intro p::before {
+  content: ""; /* Create the pseudo-element */
+  position: absolute; /* Position it absolutely */
+  top: 300;
+  left: 0;
+  width: 100%;
+  height: 38%;
+  border-radius: 50px;
+  background-color: rgba(255, 255, 255, 0.5); /* Adjust the transparency as needed */
+  z-index: -1; /* Place it behind the text */
+}
+
+
+
 header .intro-text {
   padding-top: 350px;
   padding-bottom: 200px;

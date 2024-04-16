@@ -5,7 +5,7 @@ body, html {
   padding: 0;
   font-family: 'Arial', sans-serif;
   background-color: #f4f4f4;
-  background-image: url('images/ne.jpeg');
+  background-image: url('images/inventoryback.jpeg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center 25%; /* Adjust background position to start from 1/4 of the page */
@@ -29,7 +29,7 @@ body, html {
 
 .toolbardiv {
   padding-right: 0;
-  padding-left: 150px;
+  padding-left: 15px;
   display: flex;
   justify-content: space-around;
 }
@@ -51,7 +51,7 @@ body, html {
 }
 
 header {
-  font-size: 24px;
+  font-size: 22px;
   color: #333;
   text-align: center;
   margin-top: 20px;
@@ -61,7 +61,7 @@ header {
 
 table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: cxollapse;
   margin-top: 20px;
   margin-bottom: 40px;
 }
@@ -75,8 +75,9 @@ th, td {
 
 
 th {
-  background: linear-gradient(to right, #a25cdf, #f0f0f0);
+  background: linear-gradient(to bottom, #ffffff, #c7d4cc);
 }
+
 
 
 
@@ -314,5 +315,11 @@ tr:hover {
   bottom: 0;
   background: rgba(0, 0, 0, 0.5); /* Dark overlay */
   z-index: 999; /* Below the modal, above the content */
+}
+
+.homepage {
+    font-family: Calibri, sans-serif;
+    color: black !important;
+    text-align: left;
 }
 

@@ -1,0 +1,22 @@
+/* Updated App.css */
+
+.landing-page {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  background-image: url('Pages/images/fridge.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center 25%; /* Adjust background position to start from 1/4 of the page */
+
+}
+
+.App {
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9); /* Adjust alpha value to make it more opaque */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
