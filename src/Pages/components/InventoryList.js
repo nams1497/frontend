@@ -118,7 +118,7 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
           <th>Status</th>
           <th>Actions</th>
         </tr>
-        
+
       </thead>
       <tbody>
         {inventory.map((item) => (

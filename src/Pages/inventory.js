@@ -110,7 +110,7 @@ export function Maininventory() {
 
   //change this to close all
   const togglePopup = (popupType) => {
-    
+
 
 
 
@@ -152,7 +152,7 @@ export function Maininventory() {
       }
     };
 
-  
+
 
 
   const handleInputChange = (event) => {
@@ -434,12 +434,12 @@ export function Maininventory() {
                 <input type="text" name="name" value={newItem.name} onChange={handleInputChange} />
               </div>
               <div className="form-group">
-                <label>Amount:</label>
+                <label>Quantity:</label>
                 <input type="text" name="amount" value={newItem.amount} onChange={handleInputChange} />
               </div>
               <div className="form-group">
                 <div className="form-group">
-                  <label>Spent:</label>
+                  <label>Price:</label>
                   <input type="text" name="spent" value={newItem.spent} onChange={handleInputChange} />
                 </div>
               </div>
