@@ -463,11 +463,12 @@ export function Maininventory() {
                 />
               </div>
 
-              {/* scan  bottons to get expiry date directly */}
+              {/* scan  bottons to get expiry date directly
               <div className="scan-buttons">
                 <button onClick={() => togglePopup('package')}>Scan Package</button>
                 <button onClick={() => togglePopup('produce')}>Scan Fresh Produce</button>
               </div>
+              */}
 
 
 

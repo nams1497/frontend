@@ -36,6 +36,50 @@ body, html {
   justify-content: space-around;
 }
 
+
+.action-button {
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 1px 3px;
+  margin-right: 0px;
+  margin-left: 0px;
+  font-weight: bold;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+
+.action-button:hover {
+  color: #4CAF50; /* Change the color on hover */
+}
+
+.save-button {
+  color: green; /* Green */
+}
+
+.cancel-button {
+  color: #800000; /* Red */
+}
+
+.scan-button {
+  color: #000080; /* Blue */
+}
+
+.edit-button {
+  color: green; /* Blue */
+}
+
+.delete-button {
+  color: #800000; /* Blue */
+}
+
+.action-button.disabled {
+  color: #ccc; /* Gray color for disabled buttons */
+  cursor: not-allowed; /* Change cursor to not-allowed for disabled buttons */
+}
+
 .toolbar button {
   background-color: transparent; /* Remove black highlight */
   border: none;

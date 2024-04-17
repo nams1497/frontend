@@ -5,45 +5,23 @@ import 'react-datepicker/dist/react-datepicker.css';
 const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
   const [editingItem, setEditingItem] = useState(null);
   const [updatedValues, setUpdatedValues] = useState({});
-
-  // save original data of each item
   const [originalValues, setOriginalValues] = useState({});
-
-  // const handleEdit = (id, item) => {
-  //   // Parse the expiry date to ensure it's in Date format
-  //   const parts = item.expiryDate.split('/');
-  //   const formattedExpiryDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
-
-  //   // Format the date in the "15 Apr 2024" format
-  //   const options = { day: '2-digit', month: 'short', year: 'numeric' };
-  //   const formattedDateString = formattedExpiryDate.toLocaleDateString('en-US', options);
-
-  //   setEditingItem(id);
-  //   setUpdatedValues({ ...item, expiryDate: formattedDateString });
-  // };
 
   const handleEdit = (id, item) => {
     const parts = item.expiryDate.split('/');
     const formattedExpiryDate = new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
-
     setOriginalValues(item);
-  
     setEditingItem(id);
-    setUpdatedValues({ 
-      ...item, 
-      expiryDate: formattedExpiryDate, 
+    setUpdatedValues({
+      ...item,
+      expiryDate: formattedExpiryDate,
     });
-
-
-    
   };
-
 
   const handleCancel = () => {
-    setUpdatedValues(originalValues); 
-    setEditingItem(null); 
+    setUpdatedValues(originalValues);
+    setEditingItem(null);
   };
-  
 
   const handleInputChange = (e, field) => {
     const { value } = e.target;
@@ -61,12 +39,14 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
   };
 
   const handleSave = (id) => {
-    if (!updatedValues.name || !updatedValues.amount || !updatedValues.spent || !updatedValues.expiryDate) {
+    // Validation code
+    const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
+
+    if (!updatedValues.name || !updatedValues.amount || !updatedValues.spent) {
       alert('Please fill in all the fields');
       return;
     }
 
-    const specialCharsRegex = /[!@#$%^&*(),.?":{}|<>]/;
     if (specialCharsRegex.test(updatedValues.name) || specialCharsRegex.test(updatedValues.status)) {
       alert('Please do not use special characters in the name or status field');
       return;
@@ -84,19 +64,19 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
       return;
     }
 
-    // Convert the expiryDate to the desired format "dd/MM/yyyy"
+    // Date validation can be added if required
+
     const formattedExpiryDate = `${updatedValues.expiryDate.getDate()} ${getMonthName(updatedValues.expiryDate.getMonth())} ${updatedValues.expiryDate.getFullYear()}`;
 
-    // Here we update the state with the new expiryDate as a string
     onEdit(id, { ...updatedValues, expiryDate: formattedExpiryDate });
     setEditingItem(null);
     setUpdatedValues({});
   };
 
+  const handlescanExpiry = () => {
+    togglePopup('package');
+  };
 
-  
-
-  // Function to get the name of the month from its numeric representation
   const getMonthName = (month) => {
     const monthNames = [
       "Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -104,8 +84,6 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
     ];
     return monthNames[month];
   };
-
-
 
   return (
     <table>
@@ -118,7 +96,6 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
           <th>Status</th>
           <th>Actions</th>
         </tr>
-
       </thead>
       <tbody>
         {inventory.map((item) => (
@@ -130,8 +107,6 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
                 item.name
               )}
             </td>
-
-
             <td>
               {editingItem === item.id ? (
                 <input type="text" value={updatedValues.amount} onChange={(e) => handleInputChange(e, 'amount')} />
@@ -139,32 +114,21 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
                 item.amount
               )}
             </td>
-
-
             <td>
               {editingItem === item.id ? (
                 <input type="text" value={updatedValues.spent} onChange={(e) => handleInputChange(e, 'spent')} />
-
-
               ) : (
                 item.spent
               )}
             </td>
-
-
-
             <td>
               {editingItem === item.id ? (
-                <>
-                  <DatePicker
-                    selected={updatedValues.expiryDate}
-                    onChange={(date) => handleDateChange(date)}
-                    dateFormat="dd MMM yyyy"
-                    // Add a specific class name for css design
-                    className="date-picker edit-date-picker"
-                  />
-
-                </>
+                <DatePicker
+                  selected={updatedValues.expiryDate}
+                  onChange={(date) => handleDateChange(date)}
+                  dateFormat="dd MMM yyyy"
+                  className="date-picker edit-date-picker"
+                />
               ) : (
                 item.expiryDate
               )}
@@ -173,34 +137,31 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
             <td>
               {editingItem === item.id ? (
                 <React.Fragment>
-                  <button onClick={() => handleSave(item.id)}>Save</button>
-                  <button onClick={handleCancel}>Cancel</button>
+                  <button className="action-button save-button"onClick={() => handleSave(item.id)}>Save</button>
+                  <button className="action-button cancel-button" onClick={handleCancel}>Cancel</button>
                 </React.Fragment>
               ) : (
-                // <React.Fragment>
-                //   <button onClick={() => handleEdit(item.id, item)} style={{ cursor: 'pointer', marginLeft: '-7px', marginRight: '10px', color: 'green' }}>Edit</button>
-                //   <button onClick={() => onDelete(item.id)} style={{ cursor: 'pointer', color: 'green' }}>Delete</button>
-                // </React.Fragment>
                 <React.Fragment>
                   <button
+                    className={`action-button edit-button ${editingItem !== null && editingItem !== item.id ? 'disabled' : ''}`}
                     onClick={() => handleEdit(item.id, item)}
                     disabled={editingItem !== null && editingItem !== item.id}
-                    style={{
-                      cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
-                      color: editingItem !== null && editingItem !== item.id ? 'grey' : 'green'
-                    }}
                   >
                     Edit
                   </button>
                   <button
+                    className={`action-button delete-button ${editingItem !== null && editingItem !== item.id ? 'disabled' : ''}`}
                     onClick={() => onDelete(item.id)}
                     disabled={editingItem !== null && editingItem !== item.id}
-                    style={{
-                      cursor: editingItem !== null && editingItem !== item.id ? 'not-allowed' : 'pointer',
-                      color: editingItem !== null && editingItem !== item.id ? 'grey' : 'red'
-                    }}
                   >
                     Delete
+                  </button>
+                  <button
+                    className={`action-button scan-button ${editingItem !== null && editingItem !== item.id ? 'disabled' : ''}`}
+                    onClick={handlescanExpiry}
+                    disabled={editingItem !== null && editingItem !== item.id}
+                  >
+                    Scan Expiry Date
                   </button>
                 </React.Fragment>
               )}
