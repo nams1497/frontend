@@ -112,12 +112,13 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
       <thead>
         <tr>
           <th>Name</th>
-          <th>Amount</th>
-          <th>Spent</th>
+          <th>Quantity</th>
+          <th>Price</th>
           <th>Expiry Date</th>
           <th>Status</th>
           <th>Actions</th>
         </tr>
+        
       </thead>
       <tbody>
         {inventory.map((item) => (
