@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { calculateStatus } from '../inventory';
 
 const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
   const [editingItem, setEditingItem] = useState(null);
@@ -47,10 +48,15 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
       return;
     }
 
-    if (specialCharsRegex.test(updatedValues.name) || specialCharsRegex.test(updatedValues.status)) {
+    // if (specialCharsRegex.test(updatedValues.name) || specialCharsRegex.test(updatedValues.status)) {
+    //   alert('Please do not use special characters in the name or status field');
+    //   return;
+    // }
+    if (specialCharsRegex.test(updatedValues.name)) {
       alert('Please do not use special characters in the name or status field');
       return;
     }
+
 
     const amount = parseFloat(updatedValues.amount);
     if (isNaN(amount) || amount <= 0) {
@@ -133,7 +139,17 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
                 item.expiryDate
               )}
             </td>
-            <td>{item.status}</td>
+            {/* <td>{item.status}</td> */}
+            <td>
+              <img
+                src={calculateStatus(item.expiryDate)}
+                alt="Indicator Fail"
+                className="status-image"
+                style={{ width: '55px', height: 'auto' }}
+              />
+            </td>
+
+            
             <td>
               {editingItem === item.id ? (
                 <React.Fragment>

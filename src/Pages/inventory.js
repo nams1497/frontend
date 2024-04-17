@@ -4,6 +4,47 @@ import './App.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
+
+import statusGreen from './images/status-green.png';
+import statusYellow from './images/status-yellow.png';
+import statusRed from './images/status-red.png';
+
+
+// Function to calculate the status based on the expiry date
+export const calculateStatus = (expiryDate) => {
+  const parts = expiryDate.split('/');
+  const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+  const expiry = new Date(formattedDate);
+  const currentDate = new Date();
+  
+  // Set to start of the day for comparison
+  currentDate.setHours(0, 0, 0, 0); 
+  expiry.setHours(0, 0, 0, 0);
+  
+  // Set the current datetime to the start of the day, ignoring hours, minutes and seconds currentDate.setHours(0, 0, 0, 0); 
+  const diffDays = (expiry - currentDate) / (1000 * 60 * 60 * 24);
+
+  // if (diffDays <= 0) {
+  //   return './images/status-red.png';
+  // } else if (diffDays <= 5) {
+  //   return './images/status-yellow.png';
+  // } else {
+  //   return './images/status-green.png';
+  // }
+
+  // set 3 period(safe/reminder/alert) for status
+  if (Math.ceil(diffDays) < 0) {
+    return statusRed;
+  } else if (Math.ceil(diffDays) === 0) {
+    return statusRed
+  } else if (Math.ceil(diffDays) <= 5) {
+    return statusYellow;
+  } else {
+    return statusGreen;
+  }
+};
+
+
 export function Maininventory() {
   const [inventory, setInventory] = useState(() => {
     const storedInventory = localStorage.getItem('inventory');
@@ -36,18 +77,32 @@ export function Maininventory() {
   const [extractedText2, setExtractedText2] = useState('');
   // const webcamRef = useRef(null);
 
-  // Define handleEditItem function
+  // // Define handleEditItem function
+  // const handleEditItem = (id, updatedItem) => {
+  //   // Find the item in the inventory array and update it
+  //   const updatedInventory = inventory.map(item => {
+  //     if (item.id === id) {
+  //       //return { ...item, ...updatedItem };
+  //       return updatedItem;
+  //     }
+  //     return item;
+  //   });
+  //   setInventory(updatedInventory);
+  //   //localStorage.setItem('inventory', JSON.stringify(updatedInventory));
+  // };
+
   const handleEditItem = (id, updatedItem) => {
-    // Find the item in the inventory array and update it
     const updatedInventory = inventory.map(item => {
       if (item.id === id) {
-        //return { ...item, ...updatedItem };
-        return updatedItem;
+        // Update the status based on the new expiry date
+        const status = calculateStatus(updatedItem.expiryDate);
+        return { ...item, ...updatedItem, status: status };
       }
       return item;
     });
+
     setInventory(updatedInventory);
-    //localStorage.setItem('inventory', JSON.stringify(updatedInventory));
+    localStorage.setItem('inventory', JSON.stringify(updatedInventory));
   };
 
   // Define handleDeleteItem function
@@ -56,6 +111,8 @@ export function Maininventory() {
     const updatedInventory = inventory.filter(item => item.id !== id);
     setInventory(updatedInventory);
   };
+
+  
 
 
   // Determine if any popup is active
@@ -83,26 +140,26 @@ export function Maininventory() {
 
 
 
-   useEffect(() => {
-     // Check expiry dates against current date
-     const updatedInventory = inventory.map(item => {
-       // Split the date string and rearrange it to "YYYY-MM-DD" format
-       const parts = item.expiryDate.split('/');
-       const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+  //  useEffect(() => {
+  //    // Check expiry dates against current date
+  //    const updatedInventory = inventory.map(item => {
+  //      // Split the date string and rearrange it to "YYYY-MM-DD" format
+  //      const parts = item.expiryDate.split('/');
+  //      const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
 
-       const expiryDate = new Date(formattedDate);
-       const currentDate = new Date();
+  //      const expiryDate = new Date(formattedDate);
+  //      const currentDate = new Date();
 
-       if (expiryDate < currentDate) {
-         console.log("Item expired:", item.name);
-         return { ...item, status: 'Expired' };
-       } else {
-         console.log("Item not expired:", item.name);
-         return { ...item, status: 'Not Expired' };
-       }
-     });
-     setInventory(updatedInventory);
-   }, []);
+  //      if (expiryDate < currentDate) {
+  //        console.log("Item expired:", item.name);
+  //        return { ...item, status: 'Expired' };
+  //      } else {
+  //        console.log("Item not expired:", item.name);
+  //        return { ...item, status: 'Not Expired' };
+  //      }
+  //    });
+  //    setInventory(updatedInventory);
+  //  }, []);
 
 
 
@@ -184,7 +241,11 @@ export function Maininventory() {
     }
 
     // Check if any field contains special characters
-    if (specialCharsRegex.test(newItem.name) || specialCharsRegex.test(newItem.status)) {
+    // if (specialCharsRegex.test(newItem.name) || specialCharsRegex.test(newItem.status)) {
+    //   alert('Please do not use special characters in the name or status field');
+    //   return;
+    // }
+    if (specialCharsRegex.test(newItem.name)) {
       alert('Please do not use special characters in the name or status field');
       return;
     }
@@ -210,9 +271,12 @@ export function Maininventory() {
       expiryDate = currentDate.toLocaleDateString('en-GB');
     }
 
-    // Format the spent amount
-    const formattedSpent = parseFloat(newItem.spent).toFixed(2);
+    // Format the spent amount with Australian dollar symbol
+    const formattedSpent = `$${parseFloat(newItem.spent).toFixed(2)}`;
 
+
+    // Calculate the status based on the expiry date
+    const status = calculateStatus(expiryDate);
 
     // Create a new item object
     const newInventoryItem = {
@@ -221,34 +285,32 @@ export function Maininventory() {
       amount: parseFloat(newItem.amount),
       spent: formattedSpent,
       expiryDate: expiryDate,
-      status: ''
+      status: status
     };
 
     // Add the new item to the inventory
     const updatedInventory = [...inventory, newInventoryItem];
-
-
     setInventory(updatedInventory);
     localStorage.setItem('inventory', JSON.stringify(updatedInventory));
 
     // Check expiry date and update status for the new item
-    const updatedInventoryWithStatus = updatedInventory.map(item => {
-      if (item.id === newInventoryItem.id) {
-        const parts = item.expiryDate.split('/');
-        const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
-        const expiryDate = new Date(formattedDate);
-        const currentDate = new Date();
+    // const updatedInventoryWithStatus = updatedInventory.map(item => {
+    //   if (item.id === newInventoryItem.id) {
+    //     const parts = item.expiryDate.split('/');
+    //     const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+    //     const expiryDate = new Date(formattedDate);
+    //     const currentDate = new Date();
 
-        if (expiryDate < currentDate) {
-          return { ...item, status: 'Expired' };
-        } else {
-          return { ...item, status: 'Not Expired' };
-        }
-      }
-      return item;
-    });
+    //     if (expiryDate < currentDate) {
+    //       return { ...item, status: 'Expired' };
+    //     } else {
+    //       return { ...item, status: 'Not Expired' };
+    //     }
+    //   }
+    //   return item;
+    // });
+    // setInventory(updatedInventoryWithStatus);
 
-    setInventory(updatedInventoryWithStatus);
 
     // Reset the form fields and hide the add popup
     setNewItem({
