@@ -83,6 +83,26 @@ export function Maininventory() {
 
 
 
+   useEffect(() => {
+     // Check expiry dates against current date
+     const updatedInventory = inventory.map(item => {
+       // Split the date string and rearrange it to "YYYY-MM-DD" format
+       const parts = item.expiryDate.split('/');
+       const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
+
+       const expiryDate = new Date(formattedDate);
+       const currentDate = new Date();
+
+       if (expiryDate < currentDate) {
+         console.log("Item expired:", item.name);
+         return { ...item, status: 'Expired' };
+       } else {
+         console.log("Item not expired:", item.name);
+         return { ...item, status: 'Not Expired' };
+       }
+     });
+     setInventory(updatedInventory);
+   }, []);
 
 
 
