@@ -210,8 +210,9 @@ export function Maininventory() {
       expiryDate = currentDate.toLocaleDateString('en-GB');
     }
 
-    // Format the spent amount with Australian dollar symbol
-    const formattedSpent = `$${parseFloat(newItem.spent).toFixed(2)}`;
+    // Format the spent amount
+    const formattedSpent = parseFloat(newItem.spent).toFixed(2);
+
 
     // Create a new item object
     const newInventoryItem = {
