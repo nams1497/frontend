@@ -1,0 +1,85 @@
+/* App.css */
+
+.App {
+  text-align: center;
+  font-family: 'Arial', sans-serif;
+  padding: 1em; /* Adds space on all edges of the app */
+  background-color: #f7f7f7; /* Optional: Sets a background color for the app */
+}
+
+.search-container {
+  margin-bottom: 2em;
+  padding: 0 1em; /* Adds horizontal padding */
+}
+
+.search-input {
+  padding: 1em;
+  font-size: 2.0rem;
+  border: none; /* Removes the border */
+  border-radius: 25px; /* Rounds the corners of the search bar */
+  width: calc(100% - 4em); /* Adjust width for the search input */
+  margin-right: 1em; /* Space between the search input and button */
+}
+
+.search-button {
+  padding: 1em;
+  background-color: #ffc107;
+  border: none;
+  border-radius: 25px; /* Rounds the corners of the button */
+  cursor: pointer;
+  font-size: 2.0rem;
+}
+
+.recipes-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 0; /* Resets padding */
+}
+
+.recipe-card {
+  width: calc(100% - 2em); /* Full width minus margin on mobile */
+  margin: 1em; /* Adds space around cards */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  background-color: #fff; /* Card background color */
+  border-radius: 10px; /* Rounds the corners of the cards */
+}
+
+.recipe-image-placeholder {
+  height: 200px;
+  background-color: #e9e9e9;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.recipe-info {
+  padding: 1em;
+}
+
+.recipe-title, .recipe-ingredients, .recipe-time, .recipe-has-ingredients {
+  margin-bottom: 0.5em; /* Adjusts margin between text elements */
+}
+
+.recipe-title {
+text-transform: none; /* This ensures the text case is unchanged */
+font-size: 2.0rem; /* Adjust the font size as needed */
+}
+
+
+/* Responsive styles for tablets */
+@media (min-width: 481px) and (max-width: 768px) {
+  .recipe-card {
+    width: calc(50% - 2em); /* Two cards per row on tablets */
+  }
+}
+
+/* Responsive styles for desktops */
+@media (min-width: 769px) {
+  .search-input {
+    width: 70%; /* Larger search input on desktop */
+  }
+
+  .recipe-card {
+    width: calc(33.333% - 2em); /* Three cards per row on desktop */
+  }
+}

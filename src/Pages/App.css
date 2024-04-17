@@ -255,6 +255,24 @@ tr:hover {
   background-color: #C1E1C1;
 }
 
+.recipeheader
+{
+color: #333;
+font-size: 20px;
+}
+
+.recipecontainer {
+  display: flex;
+}
+
+.recipebox {
+  flex: 1;
+  margin: 0 10px; /* Adjust margin as needed */
+  height: 100px; /* Set desired height */
+  background-color: #CCC; /* Set background color */
+}
+
+
 
 
 
