@@ -272,7 +272,8 @@ export function Maininventory() {
     }
 
     // Format the spent amount with Australian dollar symbol
-    const formattedSpent = `$${parseFloat(newItem.spent).toFixed(2)}`;
+const formattedSpent = `${parseFloat(newItem.spent).toFixed(2)}`;
+
 
 
     // Calculate the status based on the expiry date

@@ -100,7 +100,8 @@ header {
   font-size: 22px;
   color: #333;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 80px;
+  margin-bottom:40px;
   font-weight: bold; /* Add this line to make the text bold */
 }
 
@@ -128,7 +129,7 @@ th {
 
 
 tr:hover {
-  background-color: #84c38b;
+  background-color: #C1E1C1;
 }
 
 .status-not-expired {
@@ -240,8 +241,8 @@ tr:hover {
 .scan-buttons button {
   margin: 8px;
   padding: 5px 10px;
-  background-color: #666666;
   color: white;
+  color: #333;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -251,7 +252,7 @@ tr:hover {
 
 .add-button:hover,
 .scan-buttons button:hover {
-  background-color: #0056b3;
+  background-color: #C1E1C1;
 }
 
 

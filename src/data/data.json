@@ -1,7 +1,7 @@
 {
   "Header": {
-    "title": "We are Ecoeats",
-    "paragraph": "EcoEats is a comprehensive solution designed to manage inventory and track expiry dates for a wide range of food products. With EcoEats, you can keep a detailed record of your food items, ensuring that nothing goes to waste. By accurately monitoring expiry dates, users can reduce food waste and make more informed decisions about meal planning and shopping. EcoEats is a valuable tool for promoting sustainability and efficient food management practices."
+    "title": "About us",
+    "paragraph": "EcoEats is a comprehensive solution designed to manage inventory and track expiry dates for your food products. With EcoEats, you can keep a record of your food items, ensuring that nothing goes to waste. By monitoring the expiry dates, users can reduce food waste and make more informed decisions about meal planning and shopping. EcoEats is a valuable tool for promoting sustainability and efficient food management practices."
   },
 
   
@@ -123,13 +123,8 @@
     },
     {
       "icon": "fa fa-cloud-download",
-      "title": "Expiry Date Predictions",
-      "text": "Get an estimated expiry date for your fresh produce and know if its already gone stale."
-    },
-    {
-      "icon": "fa fa-pie-chart",
-      "title": "Infomation and Education",
-      "text": "Learn more about how to manage and efficiently utilise food to generate less food waste!"
+      "title": "Expiry Date Extractor",
+      "text": "Log expiry dates for packages with click of a button!"
     },
     {
       "icon": "fa fa-magic",
