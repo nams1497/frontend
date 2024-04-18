@@ -461,7 +461,7 @@ const formattedSpent = `${parseFloat(newItem.spent).toFixed(2)}`;
         <div></div>
       </div>
       <div className="App">
-        <header>YOUR INVENTORY</header>
+        <header></header>
         <InventoryList
           inventory={inventory}
           onEdit={handleEditItem}
@@ -533,10 +533,6 @@ const formattedSpent = `${parseFloat(newItem.spent).toFixed(2)}`;
                 <button onClick={() => togglePopup('produce')}>Scan Fresh Produce</button>
               </div>
               */}
-
-
-
-
 
 
               <div className="form-actions">

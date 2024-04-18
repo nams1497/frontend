@@ -1,7 +1,5 @@
 /* Updated App.css */
 
-
-
 body, html {
   margin: 0;
   padding: 0;
@@ -11,16 +9,16 @@ body, html {
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center 25%; /* Adjust background position to start from 1/4 of the page */
-
 }
 
 .App {
   max-width: 1200px;
   margin: auto;
   padding: 20px;
-  background-color: rgba(255, 255, 255, 0.9); /* Adjust alpha value to make it more opaque */
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: rgba(255, 255, 255, 0.9); /* Adjust alpha value to make it half transparent */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
+
 
 .toolbar {
   background-color: #f8f8f8;
@@ -35,7 +33,6 @@ body, html {
   display: flex;
   justify-content: space-around;
 }
-
 
 .action-button {
   background: none;
@@ -89,7 +86,7 @@ body, html {
   text-decoration: none;
   font-size: 14px;
   cursor: pointer;
-  font-weight: bold
+  font-weight: bold;
 }
 
 .toolbar button:hover {
@@ -101,14 +98,13 @@ header {
   color: #333;
   text-align: center;
   margin-top: 80px;
-  margin-bottom:40px;
+  margin-bottom: 40px;
   font-weight: bold; /* Add this line to make the text bold */
 }
 
-
 table {
   width: 100%;
-  border-collapse: cxollapse;
+  border-collapse: collapse; /* Corrected spelling mistake */
   margin-top: 20px;
   margin-bottom: 40px;
 }
@@ -117,16 +113,12 @@ th, td {
   text-align: center;
   padding: 10px; /* Adjusted padding */
   border-bottom: 1px solid #ddd;
-  color:black;
+  color: black;
 }
-
 
 th {
-  background: linear-gradient(to bottom, #ffffff, #c7d4cc);
+  background-color: #c7d4cc; /* Solid gray green color */
 }
-
-
-
 
 tr:hover {
   background-color: #C1E1C1;
@@ -143,7 +135,6 @@ tr:hover {
 .actions {
   text-align: center;
   margin-top: 20px; /* Add margin to push the buttons down */
-
 }
 
 .popup {
@@ -159,8 +150,6 @@ tr:hover {
   width: 90%;
   max-height: 80%;
   overflow-y: auto;
-
-
   z-index: 1001;
 }
 
@@ -205,7 +194,6 @@ tr:hover {
 .popup button:last-of-type {
   margin-right: 0;
 }
-
 
 .popup label {
   display: block;
@@ -255,10 +243,9 @@ tr:hover {
   background-color: #C1E1C1;
 }
 
-.recipeheader
-{
-color: #333;
-font-size: 20px;
+.recipeheader {
+  color: #333;
+  font-size: 20px;
 }
 
 .recipecontainer {
@@ -271,14 +258,6 @@ font-size: 20px;
   height: 100px; /* Set desired height */
   background-color: #CCC; /* Set background color */
 }
-
-
-
-
-
-
-
-
 
 /* Add this CSS to style the date picker calendar */
 
@@ -368,17 +347,13 @@ font-size: 20px;
   font-weight: bold;
 }
 
-
-
-
-
 .modal-overlay {
   position: fixed; /* or absolute */
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+  background: rgba(0, 0, 0, 0.9); /* Dark overlay */
   z-index: 999; /* Below the modal, above the content */
 }
 
@@ -410,4 +385,31 @@ font-size: 20px;
   font-family: "Roboto", sans-serif; /* Change the font to your preferred one */
   font-weight: 600;
 }
+
+/* Add this CSS for icon styling */
+.action-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.action-icons svg {
+  width: 18px;
+  height: 18px;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.edit-icon {
+  color: #6CBF6B; /* Pastel green, a tone darker */
+}
+
+.delete-icon {
+  color: #E65E53; /* Pastel red, a tone darker */
+}
+
+.scan-icon {
+  color: #4F86B8; /* Pastel blue, a tone darker */
+}
+
 

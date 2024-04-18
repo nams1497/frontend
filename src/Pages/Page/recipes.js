@@ -73,7 +73,7 @@ export const Recipes = () => {
         </div>
       </div>
       <div className="App">
-        <header>Recipes</header>
+        <header></header>
         <SearchBar onInputChange={handleInputChange} onSearch={handleSearch} />
         <div className="recipes-container">
           {recipes.map((recipe, index) => (

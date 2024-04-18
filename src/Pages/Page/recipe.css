@@ -24,6 +24,7 @@
 .search-button {
   padding: 1em;
   background-color: #ffc107;
+  color: #333;
   border: none;
   border-radius: 25px; /* Rounds the corners of the button */
   cursor: pointer;
