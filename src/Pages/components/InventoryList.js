@@ -3,7 +3,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { calculateStatus } from '../inventory';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrashAlt, faCamera } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrashAlt, faCamera, faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
   const [editingItem, setEditingItem] = useState(null);
@@ -148,15 +148,32 @@ const InventoryList = ({ inventory, onEdit, onDelete, togglePopup }) => {
               <div className="action-icons">
                 {editingItem === item.id ? (
                   <React.Fragment>
-                    <FontAwesomeIcon icon={faEdit} className="edit-icon" onClick={() => handleSave(item.id)} />
-                    <FontAwesomeIcon icon={faTrashAlt} className="delete-icon" onClick={handleCancel} />
+                    <FontAwesomeIcon icon={faCheck} className="save-icon" onClick={() => handleSave(item.id)} />
+                    <FontAwesomeIcon icon={faTimes} className="cancel-icon" onClick={handleCancel} />
                   </React.Fragment>
                 ) : (
-                  <React.Fragment>
-                    <FontAwesomeIcon icon={faEdit} className="edit-icon" onClick={() => handleEdit(item.id, item)} />
-                    <FontAwesomeIcon icon={faTrashAlt} className="delete-icon" onClick={() => onDelete(item.id)} />
-                    <FontAwesomeIcon icon={faCamera} className="scan-icon" onClick={handlescanExpiry} />
-                  </React.Fragment>
+<React.Fragment>
+  <FontAwesomeIcon
+    icon={faEdit}
+    className="edit-icon action-icons"
+    onClick={() => handleEdit(item.id, item)}
+  />
+  <span className="hover-text edit-hover">Edit</span>
+
+  <FontAwesomeIcon
+    icon={faTrashAlt}
+    className="delete-icon action-icons"
+    onClick={() => onDelete(item.id)}
+  />
+  <span className="hover-text delete-hover">Delete</span>
+
+  <FontAwesomeIcon
+    icon={faCamera}
+    className="scan-icon action-icons"
+    onClick={handlescanExpiry}
+  />
+  <span className="hover-text scan-hover">Scan Expiry</span>
+</React.Fragment>
                 )}
               </div>
             </td>

@@ -13,7 +13,8 @@ body, html {
 
 .App {
   max-width: 1200px;
-  margin: auto;
+
+  margin-top: 40px;
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.9); /* Adjust alpha value to make it half transparent */
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
@@ -105,11 +106,18 @@ header {
 table {
   width: 100%;
   border-collapse: collapse; /* Corrected spelling mistake */
-  margin-top: 20px;
+  margin-top: -60px;
   margin-bottom: 40px;
 }
 
-th, td {
+th{
+  text-align: center;
+  padding: 10px;  /* Adjusted padding */
+  border-bottom: 1px solid #ddd;
+  color: black;
+}
+
+td{
   text-align: center;
   padding: 10px; /* Adjusted padding */
   border-bottom: 1px solid #ddd;
@@ -117,7 +125,7 @@ th, td {
 }
 
 th {
-  background-color: #c7d4cc; /* Solid gray green color */
+  background-color: #c7d4cc;  /* Solid gray green color */
 }
 
 tr:hover {
@@ -386,30 +394,65 @@ tr:hover {
   font-weight: 600;
 }
 
-/* Add this CSS for icon styling */
 .action-icons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
 }
 
 .action-icons svg {
   width: 18px;
   height: 18px;
-  margin-right: 5px;
+  margin-right: 12px;
+  margin-left: 12px;
+  color: #36454F;
   cursor: pointer;
 }
 
-.edit-icon {
-  color: #6CBF6B; /* Pastel green, a tone darker */
+.edit-hover {
+  display: none;
+  position: absolute;
+  top: -30px;
+  left: 40%;
+  transform: translateX(-50%);
+  color: #36454F;
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 999;
 }
 
-.delete-icon {
-  color: #E65E53; /* Pastel red, a tone darker */
+.delete-hover {
+  display: none;
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #36454F;
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 999;
 }
 
-.scan-icon {
-  color: #4F86B8; /* Pastel blue, a tone darker */
+.scan-hover {
+  display: none;
+  position: absolute;
+  top: -30px;
+  left: 70%;
+  transform: translateX(-50%);
+  color: #36454F;
+  padding: 5px;
+  border-radius: 5px;
+  z-index: 999;
+  white-space: nowrap; /* Prevent text wrapping */
 }
 
 
+.edit-icon:hover + .edit-hover {
+  display: block;
+}
+
+.delete-icon:hover + .delete-hover {
+  display: block;
+}
+
+.scan-icon:hover + .scan-hover {
+  display: block;
+}
